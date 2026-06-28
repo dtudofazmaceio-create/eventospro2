@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no" />
+  <title>Enlace · Marketplace de Casamentos</title>
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#6E2A52" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet" />
+  <style>
+    /* ── RESET & BASE ── */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --primary: #6E2A52;
+      --primary-light: #8A3D63;
+      --primary-dark: #45203A;
+      --secondary: #B5658A;
+      --gold: #C2A35E;
+      --gold-soft: #E4D2A8;
+      --blush: #F4E6EC;
+      --ivory: #FBF7F3;
+      --ink: #2C2230;
+      --gray-600: #7A6E76;
+      --gray-500: #9A8E96;
+      --gray-200: #E7DCE2;
+      --white: #FFFFFF;
+      --shadow-glass: 0 8px 32px rgba(44, 34, 48, 0.08);
+      --shadow-xl: 0 24px 48px rgba(44, 34, 48, 0.18);
+      --transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      --radius: 24px;
+      --radius-sm: 14px;
+    }
+
+    html,
+    body {
+      height: 100%;
+      font-family: 'Inter', sans-serif;
+      background: var(--ivory);
+      color: var(--ink);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── PÉTALAS ANIMADAS ── */
+    .petals-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .petal {
+      position: absolute;
+      top: -20px;
+      width: 20px;
+      height: 20px;
+      background: radial-gradient(circle at 30% 30%, #fcc, #f8a5a5);
+      border-radius: 50% 0 50% 50%;
+      opacity: 0.35;
+      transform-origin: center;
+      animation: fall linear infinite;
+    }
+    .petal:nth-child(1) { left: 10%; animation-duration: 14s; animation-delay: 0s; width: 18px; height: 18px; background: #f8d5d5; }
+    .petal:nth-child(2) { left: 25%; animation-duration: 16s; animation-delay: 2s; width: 24px; height: 24px; background: #f5c2c2; }
+    .petal:nth-child(3) { left: 40%; animation-duration: 11s; animation-delay: 4s; width: 14px; height: 14px; background: #fce4e4; }
+    .petal:nth-child(4) { left: 55%; animation-duration: 19s; animation-delay: 1s; width: 20px; height: 20px; background: #f8d0d0; }
+    .petal:nth-child(5) { left: 70%; animation-duration: 13s; animation-delay: 3s; width: 22px; height: 22px; background: #fbe0e0; }
+    .petal:nth-child(6) { left: 85%; animation-duration: 17s; animation-delay: 5s; width: 16px; height: 16px; background: #fcdbdb; }
+
+    @keyframes fall {
+      0% { transform: translateY(0) rotate(0deg) scale(1); opacity: 0.35; }
+      100% { transform: translateY(110vh) rotate(720deg) scale(0.6); opacity: 0; }
+    }
+
+    /* ── HEADER ── */
+    header {
+      padding: 0.6rem 1.5rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(16px) saturate(180%);
+      -webkit-backdrop-filter: blur(16px) saturate(180%);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.6);
+      box-shadow: 0 2px 20px rgba(44, 34, 48, 0.04);
+    }
+
+    .header-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      font-family: 'Cormorant Garamond', serif;
+      text-decoration: none;
+      transition: var(--transition);
+    }
+    .logo:hover .logo-icon {
+      transform: scale(1.05) rotate(-4deg);
+    }
+    .logo-icon {
+      width: 44px;
+      height: 44px;
+      background: linear-gradient(135deg, var(--primary), var(--gold));
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--white);
+      font-weight: 700;
+      font-size: 1.3rem;
+      flex-shrink: 0;
+      box-shadow: 0 6px 20px rgba(110, 42, 82, 0.25);
+      transition: var(--transition);
+    }
+    .logo-text {
+      background: linear-gradient(135deg, var(--primary), var(--gold));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-size: 1.8rem;
+      line-height: 1;
+    }
+    .logo-sub {
+      font-size: 0.6rem;
+      color: var(--gray-500);
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .header-badge {
+      font-size: 0.7rem;
+      color: var(--gray-600);
+      font-weight: 500;
+      background: rgba(255,255,255,0.5);
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+      border: 1px solid var(--gray-200);
+      backdrop-filter: blur(4px);
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 80vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 4rem 1.5rem 6rem;
+      color: var(--white);
+      isolation: isolate;
+      background: linear-gradient(145deg, #7d2f5b 0%, var(--primary-dark) 70%, #37142c 100%);
+      overflow: hidden;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url('https://images.unsplash.com/photo-1519741497674-611481863552?w=1600&q=80') center/cover no-repeat;
+      opacity: 0.25;
+      z-index: 0;
+      mix-blend-mode: overlay;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 30% 30%, rgba(110,42,82,0.2) 0%, rgba(44,34,48,0.6) 100%);
+      z-index: 1;
+    }
+    .hero-inner {
+      position: relative;
+      z-index: 2;
+      max-width: 780px;
+      margin: 0 auto;
+    }
+    .hero-rings {
+      position: absolute;
+      z-index: 1;
+      top: 5%;
+      right: 5%;
+      width: 140px;
+      height: 140px;
+      opacity: 0.5;
+      pointer-events: none;
+      animation: float 6s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-12px); }
+    }
+    .hero .eyebrow {
+      font-size: 0.75rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold-soft);
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+    }
+    .hero h1 {
+      font-family: 'Playfair Display', 'Cormorant Garamond', serif;
+      font-size: 3.6rem;
+      font-weight: 700;
+      line-height: 1.05;
+      margin-bottom: 1rem;
+      text-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+    }
+    .hero h1 span {
+      color: var(--gold-soft);
+    }
+    .hero p {
+      font-size: 1.15rem;
+      color: rgba(255, 255, 255, 0.85);
+      max-width: 540px;
+      margin: 0 auto 2rem;
+      font-weight: 300;
+      line-height: 1.7;
+    }
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.75rem;
+    }
+
+    /* ── BUTTONS ── */
+    button,
+    .btn {
+      padding: 0.8rem 2rem;
+      border: none;
+      border-radius: 999px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      font-family: inherit;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      white-space: nowrap;
+      min-height: 54px;
+      text-decoration: none;
+      line-height: 1;
+    }
+    .btn-cta {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: var(--white);
+      box-shadow: 0 12px 30px rgba(110, 42, 82, 0.4);
+    }
+    .btn-cta:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 18px 40px rgba(110, 42, 82, 0.5);
+    }
+    .btn-light {
+      background: var(--white);
+      color: var(--primary);
+      box-shadow: 0 8px 24px rgba(44, 34, 48, 0.12);
+    }
+    .btn-light:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 36px rgba(44, 34, 48, 0.18);
+    }
+    .btn-outline {
+      background: transparent;
+      color: var(--white);
+      border: 1.5px solid rgba(255, 255, 255, 0.25);
+    }
+    .btn-outline:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: var(--gold-soft);
+      transform: translateY(-2px);
+    }
+
+    /* ── SECTION TITLES ── */
+    .section-eyebrow {
+      text-align: center;
+      font-size: 0.7rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 700;
+      margin-bottom: 0.4rem;
+    }
+    .section-title {
+      text-align: center;
+      font-family: 'Playfair Display', 'Cormorant Garamond', serif;
+      font-size: 2.6rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 2.5rem;
+      line-height: 1.1;
+    }
+    .section-title span {
+      background: linear-gradient(135deg, var(--primary), var(--gold));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* ── CHOOSER CARDS ── */
+    .chooser-section {
+      max-width: 1100px;
+      margin: 3rem auto 1rem;
+      padding: 0 1.5rem;
+    }
+    .chooser-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.8rem;
+      margin-bottom: 2rem;
+    }
+    .chooser-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      cursor: pointer;
+      transition: var(--transition);
+      border: 1px solid var(--gray-200);
+      text-decoration: none;
+      color: inherit;
+      box-shadow: var(--shadow-glass);
+      overflow: hidden;
+      min-height: 140px;
+      position: relative;
+    }
+    .chooser-card:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--shadow-xl);
+      border-color: var(--gold);
+    }
+    .chooser-card .card-img {
+      width: 140px;
+      height: 140px;
+      flex-shrink: 0;
+      background-size: cover;
+      background-position: center;
+      transition: var(--transition);
+    }
+    .chooser-card:hover .card-img {
+      transform: scale(1.05);
+    }
+    .chooser-card .card-img.client {
+      background-image: url('https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=300&h=300&fit=crop');
+    }
+    .chooser-card .card-img.professional {
+      background-image: url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=300&fit=crop');
+    }
+    .chooser-card .card-img.admin {
+      background-image: url('https://images.unsplash.com/photo-1556761175-4b46a572b786?w=300&h=300&fit=crop');
+    }
+    .chooser-content {
+      flex: 1;
+      padding: 1rem 1.5rem 1rem 0;
+    }
+    .chooser-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--gold);
+      margin-bottom: 0.2rem;
+    }
+    .chooser-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 0.3rem;
+    }
+    .chooser-desc {
+      font-size: 0.93rem;
+      color: var(--gray-600);
+      line-height: 1.5;
+    }
+    .chooser-arrow {
+      font-size: 2.4rem;
+      color: var(--gold);
+      opacity: 0.3;
+      transition: var(--transition);
+      padding-right: 1.5rem;
+    }
+    .chooser-card:hover .chooser-arrow {
+      opacity: 1;
+      transform: translateX(6px);
+    }
+
+    @media (min-width: 768px) {
+      .chooser-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .chooser-card.card-admin {
+        grid-column: 1 / -1;
+      }
+      .chooser-card .card-img {
+        width: 180px;
+        height: 180px;
+      }
+      .hero h1 {
+        font-size: 4.6rem;
+      }
+    }
+
+    /* ── GALERIA ── */
+    .gallery-section {
+      max-width: 1200px;
+      margin: 4rem auto;
+      padding: 0 1.5rem;
+    }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+    .gallery-grid .gallery-item {
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      aspect-ratio: 1/1;
+      background-size: cover;
+      background-position: center;
+      transition: var(--transition);
+      cursor: pointer;
+      position: relative;
+      box-shadow: var(--shadow-glass);
+    }
+    .gallery-grid .gallery-item:hover {
+      transform: scale(1.03);
+      box-shadow: var(--shadow-xl);
+      z-index: 2;
+    }
+    .gallery-grid .gallery-item::after {
+      content: '♥';
+      position: absolute;
+      bottom: 10px;
+      right: 14px;
+      color: white;
+      font-size: 1.4rem;
+      opacity: 0.6;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    }
+    .gallery-grid .gallery-item:nth-child(1) {
+      background-image: url('https://images.unsplash.com/photo-1511798616182-a4d4ce8f6bc1?w=600&q=80');
+    }
+    .gallery-grid .gallery-item:nth-child(2) {
+      background-image: url('https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=600&q=80');
+    }
+    .gallery-grid .gallery-item:nth-child(3) {
+      background-image: url('https://images.unsplash.com/photo-1513262068452-cd35e75d66d1?w=600&q=80');
+    }
+    .gallery-grid .gallery-item:nth-child(4) {
+      background-image: url('https://images.unsplash.com/photo-1519741497674-611481863552?w=600&q=80');
+    }
+    .gallery-grid .gallery-item:nth-child(5) {
+      background-image: url('https://images.unsplash.com/photo-1532678465557-d63ba1bdefd0?w=600&q=80');
+    }
+    .gallery-grid .gallery-item:nth-child(6) {
+      background-image: url('https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=600&q=80');
+    }
+
+    @media (min-width: 768px) {
+      .gallery-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+      .gallery-grid .gallery-item:nth-child(1) {
+        grid-column: 1 / 3;
+        grid-row: 1 / 3;
+        aspect-ratio: auto;
+      }
+    }
+
+    /* ── PROFISSIONAIS EM DESTAQUE ── */
+    .prof-ads-section {
+      max-width: 1100px;
+      margin: 3rem auto;
+      padding: 0 1.5rem;
+    }
+    .prof-ad-card {
+      background: var(--white);
+      border-radius: var(--radius-sm);
+      padding: 1.5rem 1.75rem;
+      margin-bottom: 1.25rem;
+      border: 1px solid var(--gray-200);
+      border-left: 5px solid var(--gold);
+      box-shadow: var(--shadow-glass);
+      transition: var(--transition);
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .prof-ad-card:hover {
+      box-shadow: var(--shadow-xl);
+      transform: translateY(-4px);
+      border-color: var(--gold);
+    }
+    .prof-ad-card .prof-img {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background-size: cover;
+      background-position: center;
+      flex-shrink: 0;
+      border: 3px solid var(--gold-soft);
+      transition: var(--transition);
+    }
+    .prof-ad-card:hover .prof-img {
+      transform: scale(1.05);
+      border-color: var(--gold);
+    }
+    .prof-ad-card .prof-info {
+      flex: 1;
+      min-width: 200px;
+    }
+    .prof-ad-card h4 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 0.2rem;
+    }
+    .prof-ad-card p {
+      font-size: 0.93rem;
+      color: var(--gray-600);
+      margin-bottom: 0.5rem;
+      line-height: 1.5;
+    }
+    .prof-ad-meta {
+      font-size: 0.85rem;
+      color: var(--gray-500);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      align-items: center;
+    }
+    .prof-ad-card .btn-link {
+      display: inline-block;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--primary);
+      text-decoration: none;
+      transition: var(--transition);
+      border-bottom: 1.5px solid transparent;
+    }
+    .prof-ad-card .btn-link:hover {
+      color: var(--secondary);
+      border-bottom-color: var(--gold);
+    }
+
+    /* ── ADS BANNERS ── */
+    .ads-strip {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+    .ad-banner {
+      background: linear-gradient(135deg, #3a2238 0%, #241726 100%);
+      color: var(--white);
+      border-radius: var(--radius-sm);
+      padding: 1.25rem 1.5rem;
+      position: relative;
+      transition: var(--transition);
+      cursor: pointer;
+      border: 1px solid rgba(194, 163, 94, 0.15);
+      box-shadow: var(--shadow-glass);
+    }
+    .ad-banner:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-xl);
+    }
+    .ad-banner h4 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 0.2rem;
+    }
+    .ad-banner p {
+      font-size: 0.92rem;
+      opacity: 0.85;
+      line-height: 1.5;
+    }
+    .ad-label {
+      position: absolute;
+      top: 0.75rem;
+      right: 0.75rem;
+      font-size: 0.6rem;
+      background: rgba(194, 163, 94, 0.2);
+      color: var(--gold-soft);
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      font-weight: 700;
+      backdrop-filter: blur(4px);
+    }
+
+    /* ── FOOTER ── */
+    .index-footer {
+      text-align: center;
+      padding: 3rem 1.5rem 2rem;
+      color: var(--gray-500);
+      font-size: 0.9rem;
+      border-top: 1px solid var(--gray-200);
+      margin-top: 3rem;
+      background: var(--white);
+    }
+    .index-footer strong {
+      font-family: 'Playfair Display', serif;
+      color: var(--primary);
+      font-size: 1.2rem;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 600px) {
+      .chooser-card {
+        flex-direction: column;
+        align-items: stretch;
+        text-align: center;
+        gap: 0;
+      }
+      .chooser-card .card-img {
+        width: 100%;
+        height: 160px;
+      }
+      .chooser-content {
+        padding: 1rem;
+      }
+      .chooser-arrow {
+        display: none;
+      }
+      .hero h1 {
+        font-size: 2.6rem;
+      }
+      .hero-rings {
+        width: 80px;
+        height: 80px;
+        right: 2%;
+        top: 0;
+      }
+      .section-title {
+        font-size: 2rem;
+      }
+      .header-badge {
+        display: none;
+      }
+      .prof-ad-card {
+        flex-direction: column;
+        text-align: center;
+      }
+      .prof-ad-card .prof-img {
+        width: 100px;
+        height: 100px;
+        margin: 0 auto;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- PÉTALAS ANIMADAS -->
+  <div class="petals-container" aria-hidden="true">
+    <div class="petal"></div>
+    <div class="petal"></div>
+    <div class="petal"></div>
+    <div class="petal"></div>
+    <div class="petal"></div>
+    <div class="petal"></div>
+  </div>
+
+  <!-- HEADER -->
+  <header>
+    <div class="header-container">
+      <a class="logo" href="index.html">
+        <div class="logo-icon">♥</div>
+        <div style="display:flex;flex-direction:column;gap:0.05rem">
+          <span class="logo-text">Enlace</span>
+          <span class="logo-sub">marketplace de casamentos</span>
+        </div>
+      </a>
+      <span class="header-badge">v1.0</span>
+    </div>
+  </header>
+
+  <!-- CONTENT -->
+  <div class="content-wrapper">
+
+    <!-- HERO -->
+    <div class="hero" id="heroBox">
+      <svg class="hero-rings" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <circle cx="49" cy="62" r="25" stroke="#E4D2A8" stroke-width="3" opacity="0.7" />
+        <circle cx="73" cy="62" r="25" stroke="#C2A35E" stroke-width="3" />
+        <circle cx="61" cy="62" r="40" stroke="#E4D2A8" stroke-width="1.5" opacity="0.4" />
+      </svg>
+      <div class="hero-inner">
+        <div class="eyebrow">Marketplace de casamentos</div>
+        <h1 id="heroTitle">Seu dia <span>perfeito</span><br />começa aqui</h1>
+        <p id="heroSubtitle">Fotógrafos, buffets, decoração, música e muito mais — os melhores fornecedores para o seu grande dia, reunidos em um só lugar.</p>
+        <div class="hero-actions">
+          <button class="btn-light" onclick="document.getElementById('chooserSection').scrollIntoView({behavior:'smooth'})">
+            Começar agora &rarr;
+          </button>
+          <button class="btn-outline" onclick="window.location.href='painel-cliente.html'">
+            Explorar fornecedores
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ADS TOP -->
+    <div class="ads-strip" id="adsTopIndex" style="margin-top:2rem"></div>
+
+    <!-- CHOOSER -->
+    <div class="chooser-section" id="chooserSection">
+      <div class="section-eyebrow">Por onde quer começar?</div>
+      <div class="section-title">Escolha o seu <span>acesso</span></div>
+      <div class="chooser-grid">
+        <a class="chooser-card card-client" href="painel-cliente.html">
+          <div class="card-img client"></div>
+          <div class="chooser-content">
+            <div class="chooser-label">Para noivos</div>
+            <div class="chooser-title">Encontrar fornecedores</div>
+            <div class="chooser-desc">Descubra e contrate os profissionais do seu casamento, envie pedidos de orçamento e acompanhe tudo em um só lugar.</div>
+          </div>
+          <div class="chooser-arrow">&rsaquo;</div>
+        </a>
+        <a class="chooser-card card-professional" href="painel-profissional.html">
+          <div class="card-img professional"></div>
+          <div class="chooser-content">
+            <div class="chooser-label">Para fornecedores</div>
+            <div class="chooser-title">Divulgar meus serviços</div>
+            <div class="chooser-desc">Monte sua vitrine, mostre seu portfólio e receba pedidos de orçamento de noivos da sua região.</div>
+          </div>
+          <div class="chooser-arrow">&rsaquo;</div>
+        </a>
+        <a class="chooser-card card-admin" href="painel-gestor.html">
+          <div class="card-img admin"></div>
+          <div class="chooser-content">
+            <div class="chooser-label">Administração</div>
+            <div class="chooser-title">Painel do gestor</div>
+            <div class="chooser-desc">Gerencie usuários, publique anúncios e acompanhe os números da plataforma Enlace.</div>
+          </div>
+          <div class="chooser-arrow">&rsaquo;</div>
+        </a>
+      </div>
+    </div>
+
+    <!-- GALERIA -->
+    <section class="gallery-section">
+      <div class="section-eyebrow">Inspire-se</div>
+      <div class="section-title">Casamentos dos <span>sonhos</span></div>
+      <div class="gallery-grid" id="galleryGrid">
+        <div class="gallery-item"></div>
+        <div class="gallery-item"></div>
+        <div class="gallery-item"></div>
+        <div class="gallery-item"></div>
+        <div class="gallery-item"></div>
+        <div class="gallery-item"></div>
+      </div>
+    </section>
+
+    <!-- PROFISSIONAIS DESTAQUE -->
+    <div class="prof-ads-section" id="profAdsIndex">
+      <!-- preenchido pelo JS -->
+    </div>
+
+    <!-- ADS BOTTOM -->
+    <div class="ads-strip" id="adsBottomIndex"></div>
+
+    <!-- FOOTER -->
+    <div class="index-footer">
+      <strong>Enlace</strong> &copy; 2025 &middot; Marketplace de casamentos, sincronizado em tempo real
+    </div>
+
+  </div>
+
+  <!-- FIREBASE + SCRIPT -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js">
+  </script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js">
+  </script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyCjVxdq2AGRh68Qa_YdbkMEdIRL7E06N8M",
+      authDomain: "imobpro-667da.firebaseapp.com",
+      databaseURL: "https://imobpro-667da-default-rtdb.firebaseio.com",
+      projectId: "imobpro-667da",
+      storageBucket: "imobpro-667da.firebasestorage.app",
+      messagingSenderId: "827299768500",
+      appId: "1:827299768500:web:5935f6ebfd863d376a8fe1"
+    };
+    try {
+      firebase.initializeApp(firebaseConfig);
+      const db = firebase.database();
+
+      function esc(s) { return String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' } [c])); }
+
+      // Configurações do site (controladas pelo painel do Gestor)
+      db.ref('siteSettings').on('value', snap => {
+        const s = snap.val() || {};
+        const heroBox = document.getElementById('heroBox');
+        if (s.heroImage && heroBox) {
+          heroBox.style.backgroundImage =
+            `linear-gradient(rgba(20,14,8,0.55),rgba(20,14,8,0.55)), url('${s.heroImage}')`;
+          heroBox.style.backgroundSize = 'cover';
+          heroBox.style.backgroundPosition = 'center';
+        }
+        if (s.heroTitle) {
+          document.getElementById('heroTitle').textContent = s.heroTitle;
+        }
+        if (s.heroSubtitle) {
+          document.getElementById('heroSubtitle').textContent = s.heroSubtitle;
+        }
+        const grid = document.getElementById('galleryGrid');
+        if (grid && Array.isArray(s.galleryImages) && s.galleryImages.length) {
+          grid.innerHTML = s.galleryImages.slice(0, 12).map(url =>
+            `<div class="gallery-item" style="background-image:url('${esc(url)}');background-size:cover;background-position:center;"></div>`
+          ).join('');
+        }
+      }, err => console.warn('siteSettings:', err.message));
+
+      // Anúncios globais
+      db.ref('ads').on('value', snap => {
+        const ads = Object.values(snap.val() || {});
+        const now = new Date();
+        const topAds = ads.filter(a => a.position === 'top' && new Date(a.expire) > now);
+        const bottomAds = ads.filter(a => a.position === 'bottom' && new Date(a.expire) > now);
+
+        const topBox = document.getElementById('adsTopIndex');
+        topBox.innerHTML = topAds.map(a => `
+            <div class="ad-banner">
+              <span class="ad-label">Anúncio</span>
+              <h4>${esc(a.title)}</h4>
+              <p>${esc(a.content)}</p>
+            </div>`).join('');
+
+        const bottomBox = document.getElementById('adsBottomIndex');
+        bottomBox.innerHTML = bottomAds.map(a => `
+            <div class="ad-banner">
+              <span class="ad-label">Anúncio</span>
+              <h4>${esc(a.title)}</h4>
+              <p>${esc(a.content)}</p>
+            </div>`).join('');
+      }, err => console.warn('ads:', err.message));
+
+      // Anúncios de fornecedores
+      db.ref('profAds').on('value', snap => {
+        const ads = Object.values(snap.val() || {});
+        const now = new Date();
+        const active = ads.filter(a => new Date(a.expire) > now).slice(0, 3);
+        const box = document.getElementById('profAdsIndex');
+        if (!active.length) { box.innerHTML = ''; return; }
+        const getImg = (name) => {
+          const hash = name ? name.length : 0;
+          const imgs = [
+            'https://images.unsplash.com/photo-1511988617509-a57c8a288659?w=200&h=200&fit=crop',
+            'https://images.unsplash.com/photo-1505373877841-8d25f7d46678?w=200&h=200&fit=crop',
+            'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=200&h=200&fit=crop'
+          ];
+          return imgs[hash % imgs.length];
+        };
+        box.innerHTML =
+          `<div class="section-eyebrow">Selecionados para você</div><div class="section-title">Fornecedores em <span>destaque</span></div>` +
+          active.map(a => `
+              <div class="prof-ad-card">
+                <div class="prof-img" style="background-image:url('${getImg(a.professionalName)}')"></div>
+                <div class="prof-info">
+                  <h4>${esc(a.title)}</h4>
+                  <p>${esc(a.content)}</p>
+                  <div class="prof-ad-meta">
+                    <span>&#9829; ${esc(a.professionalName || 'Fornecedor')}</span>
+                    ${a.specialties?.length ? ' &middot; ' + a.specialties.slice(0, 2).map(s => esc(s)).join(', ') : ''}
+                    ${a.region ? ' &middot; 📍 ' + esc(a.region) : ''}
+                  </div>
+                  <a class="btn-link" href="painel-cliente.html">Ver perfil completo &rarr;</a>
+                </div>
+              </div>`).join('');
+      }, err => console.warn('profAds:', err.message));
+    } catch (e) {
+      console.warn('Firebase não configurado:', e.message);
+    }
+  </script>
+
+</body>
+</html>
